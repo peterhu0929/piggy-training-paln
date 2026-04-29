@@ -2,30 +2,77 @@
 <h2 class="sr-only">Joy 32週半馬訓練計畫 — 目標12月底台北馬拉松SUB 2</h2>
 
 <style>
+:root {
+  --fs-10: 10px;
+  --fs-11: 11px;
+  --fs-12: 12px;
+  --fs-13: 13px;
+  --fs-16: 16px;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-sans); }
+body {
+  font-family: var(--font-sans);
+  background: var(--page-bg, transparent);
+  color: var(--page-text, inherit);
+  transition: background-color .25s ease, color .25s ease;
+}
 .section { margin-bottom: 2rem; }
-.section-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+.section-title { font-size: var(--fs-13); font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+.toolbar { display: flex; justify-content: flex-end; margin-bottom: 14px; }
+.theme-toggle {
+  font-size: var(--fs-12);
+  font-weight: 600;
+  letter-spacing: .01em;
+  padding: 7px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border-secondary);
+  background: var(--color-background-primary);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all .18s ease;
+  box-shadow: 0 1px 3px rgba(20,20,20,.08), inset 0 0 0 1px rgba(255,255,255,.45);
+}
+.theme-toggle:hover { transform: translateY(-1px); border-color: var(--color-text-tertiary); }
+.theme-toggle:focus-visible { outline: 2px solid #378ADD; outline-offset: 2px; }
+.toolbar { gap: 8px; align-items: center; flex-wrap: wrap; }
+.font-size-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-secondary);
+  font-size: var(--fs-12);
+  font-weight: 600;
+}
+.font-size-picker select {
+  font-size: var(--fs-12);
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border-secondary);
+  background: var(--color-background-primary);
+  color: var(--color-text-secondary);
+}
 .phase-bar { display: flex; width: 100%; height: 36px; border-radius: var(--border-radius-md); overflow: hidden; margin-bottom: 8px; }
-.phase-seg { display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; }
-.legend-row { display: flex; flex-wrap: wrap; gap: 16px; font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; }
+.phase-seg { display: flex; align-items: center; justify-content: center; font-size: var(--fs-12); font-weight: 500; }
+.legend-row { display: flex; flex-wrap: wrap; gap: 16px; font-size: var(--fs-12); color: var(--color-text-secondary); margin-bottom: 6px; }
 .legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }
 .pace-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
 .pace-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 14px; }
-.pace-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; }
-.pace-value { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
-.pace-sub { font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px; }
+.pace-label { font-size: var(--fs-11); color: var(--color-text-secondary); margin-bottom: 4px; }
+.pace-value { font-size: var(--fs-16); font-weight: 500; color: var(--color-text-primary); }
+.pace-sub { font-size: var(--fs-11); color: var(--color-text-tertiary); margin-top: 2px; }
 .milestone-row { display: flex; flex-direction: column; gap: 8px; }
 .milestone { display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); }
-.milestone-badge { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
-.milestone-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
-.milestone-week { font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px; }
+.milestone-badge { font-size: var(--fs-11); font-weight: 500; padding: 3px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+.milestone-text { font-size: var(--fs-13); color: var(--color-text-secondary); line-height: 1.5; }
+.milestone-week { font-size: var(--fs-11); color: var(--color-text-tertiary); margin-top: 2px; }
 .chart-wrap { position: relative; width: 100%; height: 220px; }
-.month-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.month-table { width: 100%; border-collapse: collapse; font-size: var(--fs-12); }
 .month-table th { background: var(--color-background-secondary); color: var(--color-text-secondary); font-weight: 500; padding: 8px 10px; text-align: left; border-bottom: 0.5px solid var(--color-border-tertiary); }
 .month-table td { padding: 8px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); vertical-align: top; }
 .month-table tr:last-child td { border-bottom: none; }
-.tag { display: inline-block; font-size: 10px; font-weight: 500; padding: 1px 6px; border-radius: 3px; margin-right: 3px; margin-bottom: 2px; }
+.tag { display: inline-block; font-size: var(--fs-10); font-weight: 500; padding: 1px 6px; border-radius: 3px; margin-right: 3px; margin-bottom: 2px; }
 .tag-e { background: #E1F5EE; color: #0F6E56; }
 .tag-t { background: #E6F1FB; color: #185FA5; }
 .tag-i { background: #FAEEDA; color: #854F0B; }
@@ -33,11 +80,325 @@ body { font-family: var(--font-sans); }
 .tag-rest { background: #F1EFE8; color: #5F5E5A; }
 .tag-str { background: #FBEAF0; color: #993556; }
 .week-label { font-weight: 500; color: var(--color-text-primary); }
-.week-note { font-size: 11px; color: var(--color-text-tertiary); margin-top: 3px; }
+.week-note { font-size: var(--fs-11); color: var(--color-text-tertiary); margin-top: 3px; }
 .divider { height: 0.5px; background: var(--color-border-tertiary); margin: 1.5rem 0; }
+/* ── 完整週課表分頁系統 ── */
+.schedule-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 8px;
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 14px;
+  background: linear-gradient(180deg, var(--color-background-primary), var(--color-background-secondary));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+}
+.schedule-tab {
+  position: relative;
+  font-size: var(--fs-12);
+  font-weight: 600;
+  letter-spacing: .01em;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border-secondary);
+  background: var(--color-background-primary);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all .18s ease;
+  box-shadow: 0 1px 3px rgba(20,20,20,.08), inset 0 0 0 1px rgba(255,255,255,.55);
+}
+.schedule-tab:hover { transform: translateY(-1px); border-color: var(--color-text-tertiary); }
+.schedule-tab:focus-visible { outline: 2px solid #378ADD; outline-offset: 2px; }
+.schedule-tab.active {
+  background: var(--color-text-primary);
+  color: var(--color-background-primary);
+  border-color: var(--color-text-primary);
+  box-shadow: 0 2px 8px rgba(20,20,20,.2);
+}
+.schedule-panel { display: none; }
+.schedule-panel.active { display: block; }
+.phase-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-11);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  box-shadow: 0 2px 8px rgba(20, 20, 20, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+  margin-bottom: 12px;
+}
+
+.phase-tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.75;
+  flex: 0 0 6px;
+}
+.schedule-panel table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 6px;
+  font-size: var(--fs-12);
+  table-layout: fixed;
+}
+.schedule-panel th {
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  padding: 8px;
+  text-align: left;
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 8px;
+}
+.schedule-panel td {
+  padding: 8px;
+  color: var(--color-text-primary);
+  vertical-align: top;
+  line-height: 1.55;
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 10px;
+  background: var(--color-background-primary);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);
+}
+.schedule-panel tr.recovery td { background: rgba(250,238,218,0.35); }
+.schedule-panel tr.testweek td { background: rgba(238,237,254,0.4); }
+.schedule-panel tr.raceweek td { background: rgba(225,245,238,0.4); }
+.wk { font-weight: 500; font-size: var(--fs-12); }
+.wn { font-size: var(--fs-10); color: var(--color-text-tertiary); margin-top: 2px; }
+.note { font-size: var(--fs-10); color: var(--color-text-tertiary); margin-top: 3px; }
+.vol { font-weight: 500; color: var(--color-text-primary); }
+.alert { background: var(--color-background-secondary); border-left: 3px solid #7F77DD; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 14px; margin-bottom: 14px; font-size: var(--fs-12); color: var(--color-text-secondary); line-height: 1.6; }
+.alert.green { border-left-color: #1D9E75; }
+.alert.amber { border-left-color: #BA7517; }
+.alert.red { border-left-color: #D85A30; }
+.e { background: #E1F5EE; color: #0F6E56; }
+.t { background: #E6F1FB; color: #185FA5; }
+.i { background: #FAEEDA; color: #854F0B; }
+.lsd { background: #EEEDFE; color: #534AB7; }
+.mp { background: #FAECE7; color: #993C1D; }
+.rest { background: #F1EFE8; color: #5F5E5A; }
+.str { background: #FBEAF0; color: #993556; }
+.test { background: #EEEDFE; color: #3C3489; }
+
+@media (max-width: 768px) {
+  div[style="padding: 1.25rem 0;"] {
+    padding: .75rem 0 !important;
+  }
+
+  .section {
+    margin-bottom: 1.25rem;
+  }
+
+  .section-title {
+    margin-bottom: 10px;
+    letter-spacing: 0.04em;
+  }
+
+  .toolbar {
+    justify-content: stretch;
+    margin-bottom: 12px;
+  }
+
+  .font-size-picker {
+    flex: 1 1 100%;
+    justify-content: space-between;
+  }
+
+  .font-size-picker select,
+  .theme-toggle {
+    width: 100%;
+    min-height: 38px;
+  }
+
+  .phase-bar {
+    height: auto;
+    flex-direction: column;
+    border-radius: 10px;
+  }
+
+  .phase-seg {
+    min-height: 34px;
+    justify-content: flex-start;
+    padding: 0 10px;
+  }
+
+  .legend-row {
+    gap: 8px 12px;
+  }
+
+  .pace-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .pace-card {
+    padding: 10px 12px;
+  }
+
+  .milestone {
+    padding: 9px 11px;
+    gap: 9px;
+  }
+
+  .chart-wrap {
+    height: 190px;
+  }
+
+  .schedule-tabs {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .schedule-tab {
+    flex: 1 1 calc(50% - 6px);
+    text-align: center;
+    padding: 8px 10px;
+  }
+
+  .schedule-panel {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+    scrollbar-width: thin;
+  }
+
+  .schedule-panel::after {
+    content: '左右滑動可查看完整課表';
+    display: block;
+    font-size: var(--fs-10);
+    color: var(--color-text-tertiary);
+    margin-top: 4px;
+    text-align: right;
+  }
+
+  .schedule-panel table {
+    min-width: 780px;
+    border-spacing: 4px;
+  }
+
+  .schedule-panel th,
+  .schedule-panel td {
+    padding: 10px 9px;
+  }
+
+  .schedule-panel th:first-child,
+  .schedule-panel td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+  }
+
+  .schedule-panel th:first-child {
+    background: var(--color-background-secondary);
+  }
+
+  .schedule-panel td:first-child {
+    background: var(--color-background-primary);
+  }
+
+  .schedule-panel tr.recovery td:first-child { background: rgba(250,238,218,0.35); }
+  .schedule-panel tr.testweek td:first-child { background: rgba(238,237,254,0.4); }
+  .schedule-panel tr.raceweek td:first-child { background: rgba(225,245,238,0.4); }
+}
+
+@media (max-width: 430px) {
+  .schedule-tab {
+    flex: 1 1 100%;
+  }
+
+  .phase-tag {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .milestone {
+    flex-direction: column;
+  }
+
+  .chart-wrap {
+    height: 170px;
+  }
+}
+
+body.dark-mode {
+  --page-bg: #0f131b;
+  --page-text: #e8edf5;
+  --color-background-primary: #161c27;
+  --color-background-secondary: #202836;
+  --color-text-primary: #e8edf5;
+  --color-text-secondary: #c4cede;
+  --color-text-tertiary: #9aa8be;
+  --color-border-secondary: #3b465a;
+  --color-border-tertiary: #303a4d;
+}
+
+body.font-size-small {
+  --fs-10: 9px;
+  --fs-11: 10px;
+  --fs-12: 11px;
+  --fs-13: 12px;
+  --fs-16: 14px;
+}
+
+body.font-size-medium {
+  --fs-10: 10px;
+  --fs-11: 11px;
+  --fs-12: 12px;
+  --fs-13: 13px;
+  --fs-16: 16px;
+}
+
+body.font-size-large {
+  --fs-10: 12px;
+  --fs-11: 13px;
+  --fs-12: 14px;
+  --fs-13: 15px;
+  --fs-16: 20px;
+}
+
+body.dark-mode .phase-bar,
+body.dark-mode .pace-card,
+body.dark-mode .milestone,
+body.dark-mode .schedule-tabs,
+body.dark-mode .schedule-panel td,
+body.dark-mode .schedule-panel th,
+body.dark-mode .month-table th,
+body.dark-mode .month-table td,
+body.dark-mode .alert,
+body.dark-mode .theme-toggle {
+  box-shadow: none;
+}
+
+body.dark-mode .schedule-panel td:first-child {
+  background: var(--color-background-primary);
+}
+
+body.dark-mode .schedule-panel tr.recovery td:first-child { background: rgba(250,238,218,0.22); }
+body.dark-mode .schedule-panel tr.testweek td:first-child { background: rgba(238,237,254,0.22); }
+body.dark-mode .schedule-panel tr.raceweek td:first-child { background: rgba(225,245,238,0.2); }
 </style>
 
 <div style="padding: 1.25rem 0;">
+
+  <div class="toolbar">
+    <label class="font-size-picker" for="fontSizeSelect">
+      文字大小
+      <select id="fontSizeSelect" aria-label="內容文字大小">
+        <option value="small">小</option>
+        <option value="medium" selected>中</option>
+        <option value="large">大</option>
+      </select>
+    </label>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false">切換深色模式</button>
+  </div>
 
   <div class="section">
     <div class="section-title">32週階段總覽 — 2026年5月 → 12月</div>
@@ -127,71 +488,440 @@ body { font-family: var(--font-sans); }
   <div class="divider"></div>
 
   <div class="section">
-    <div class="section-title">第一個月週課表（Wk 1–4，基礎期）</div>
-    <table class="month-table">
-      <thead>
-        <tr>
-          <th style="width:80px;">週次</th>
-          <th>週一</th>
-          <th>週三</th>
-          <th>週五</th>
-          <th>週六／日</th>
-          <th style="width:80px;">週量</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <div class="week-label">第1週</div>
-            <div class="week-note">導入週</div>
-          </td>
-          <td><span class="tag tag-e">E</span> 輕鬆跑 5km<br><span style="font-size:11px;color:var(--color-text-tertiary);">7:10/km · 含3min熱身走</span></td>
-          <td><span class="tag tag-e">E</span> 輕鬆跑 6km<br><span style="font-size:11px;color:var(--color-text-tertiary);">7:00–7:10/km</span></td>
-          <td><span class="tag tag-str">肌力</span> 核心+髖屈肌 30min<br><span style="font-size:11px;color:var(--color-text-tertiary);">深蹲、棒式、側躺腿抬</span></td>
-          <td><span class="tag tag-lsd">LSD</span> 長跑 10km<br><span style="font-size:11px;color:var(--color-text-tertiary);">7:15–7:30/km · 全程輕鬆</span></td>
-          <td><strong>21 km</strong></td>
-        </tr>
-        <tr>
-          <td>
-            <div class="week-label">第2週</div>
-            <div class="week-note">量微增</div>
-          </td>
-          <td><span class="tag tag-e">E</span> 輕鬆跑 6km<br><span style="font-size:11px;color:var(--color-text-tertiary);">7:00–7:10/km</span></td>
-          <td><span class="tag tag-t">T</span> 節奏跑 6km<br><span style="font-size:11px;color:var(--color-text-tertiary);">熱身2k + T 3km@6:20 + 冷卻1k</span></td>
-          <td><span class="tag tag-e">E</span> 輕鬆跑 5km<br><span style="font-size:11px;color:var(--color-text-tertiary);">7:10–7:20/km 恢復日</span></td>
-          <td><span class="tag tag-lsd">LSD</span> 長跑 12km<br><span style="font-size:11px;color:var(--color-text-tertiary);">7:10–7:30/km</span></td>
-          <td><strong>29 km</strong></td>
-        </tr>
-        <tr>
-          <td>
-            <div class="week-label">第3週</div>
-            <div class="week-note">引入間歇</div>
-          </td>
-          <td><span class="tag tag-e">E</span> 輕鬆跑 6km<br><span style="font-size:11px;color:var(--color-text-tertiary);">7:00/km</span></td>
-          <td><span class="tag tag-i">I</span> 間歇跑<br><span style="font-size:11px;color:var(--color-text-tertiary);">熱身2k + 6×400m@5:20 (間休90s) + 冷卻2k ≈ 6.4km</span></td>
-          <td><span class="tag tag-e">E</span> 輕鬆跑 6km<br><span style="font-size:11px;color:var(--color-text-tertiary);">7:10/km</span></td>
-          <td><span class="tag tag-lsd">LSD</span> 長跑 13km<br><span style="font-size:11px;color:var(--color-text-tertiary);">7:15/km · 嘗試後半段加速</span></td>
-          <td><strong>31 km</strong></td>
-        </tr>
-        <tr style="background:var(--color-background-secondary);">
-          <td>
-            <div class="week-label">第4週</div>
-            <div class="week-note" style="color:#D85A30;">減量週 ↓</div>
-          </td>
-          <td><span class="tag tag-e">E</span> 輕鬆跑 5km<br><span style="font-size:11px;color:var(--color-text-tertiary);">7:15/km · 全程舒適</span></td>
-          <td><span class="tag tag-t">T</span> 輕節奏 5km<br><span style="font-size:11px;color:var(--color-text-tertiary);">熱身2k + T 2km@6:20 + 冷卻1k</span></td>
-          <td><span class="tag tag-rest">休息</span> 伸展 / 滾筒放鬆<br><span style="font-size:11px;color:var(--color-text-tertiary);">15–20min 泡沫軸</span></td>
-          <td><span class="tag tag-lsd">LSD</span> 輕鬆長跑 10km<br><span style="font-size:11px;color:var(--color-text-tertiary);">7:20–7:30/km · 純有氧恢復</span></td>
-          <td><strong>20 km</strong></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="section-title">第1至第8個月完整週課表（Wk 1–32）</div>
+
+    <div class="schedule-tabs">
+      <button class="schedule-tab active" onclick="showMonth('m1', this)">第1月 W1–4</button>
+      <button class="schedule-tab" onclick="showMonth('m2', this)">第2月 W5–8</button>
+      <button class="schedule-tab" onclick="showMonth('m3', this)">第3月 W9–12</button>
+      <button class="schedule-tab" onclick="showMonth('m4', this)">第4月 W13–16</button>
+      <button class="schedule-tab" onclick="showMonth('m5', this)">第5月 W17–20</button>
+      <button class="schedule-tab" onclick="showMonth('m6', this)">第6月 W21–24</button>
+      <button class="schedule-tab" onclick="showMonth('m7', this)">第7月 W25–28</button>
+      <button class="schedule-tab" onclick="showMonth('m8', this)">第8月 W29–32</button>
+    </div>
+
+    <div class="schedule-panel active" id="m1">
+      <span class="phase-tag" style="background:#E1F5EE;color:#0F6E56;">基礎期 · 第1個月（5月）</span>
+      <div class="alert green">重點：建立規律跑步節奏與基礎有氧能力。第1週導入、第3週引入短間歇，第4週減量恢復，為第2月銜接做準備。</div>
+      <table>
+        <thead><tr><th width="72">週次</th><th>週一</th><th>週三</th><th>週五</th><th>週六/日</th><th width="56">週量</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="wk">第1週</div><div class="wn">導入週</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 5km<div class="note">7:10/km · 含3min熱身走</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 6km<div class="note">7:00–7:10/km</div></td>
+            <td><span class="tag str">肌力</span>核心+髖屈肌 30min<div class="note">深蹲、棒式、側躺腿抬</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 10km<div class="note">7:15–7:30/km · 全程輕鬆</div></td>
+            <td class="vol">21 km</td>
+          </tr>
+          <tr>
+            <td><div class="wk">第2週</div><div class="wn">量微增</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 6km<div class="note">7:00–7:10/km</div></td>
+            <td><span class="tag t">T</span>節奏跑 6km<div class="note">熱身2k + T 3km@6:20 + 冷卻1k</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 5km<div class="note">7:10–7:20/km 恢復日</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 12km<div class="note">7:10–7:30/km</div></td>
+            <td class="vol">29 km</td>
+          </tr>
+          <tr>
+            <td><div class="wk">第3週</div><div class="wn">引入間歇</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 6km<div class="note">7:00/km</div></td>
+            <td><span class="tag i">I</span>間歇跑 ≈6.4km<div class="note">熱身2k + 6×400m@5:20 (間休90s) + 冷卻2k</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 6km<div class="note">7:10/km</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 13km<div class="note">7:15/km · 嘗試後半段加速</div></td>
+            <td class="vol">31 km</td>
+          </tr>
+          <tr class="recovery">
+            <td><div class="wk">第4週</div><div class="wn" style="color:#BA7517;">減量週 ↓</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 5km<div class="note">7:15/km · 全程舒適</div></td>
+            <td><span class="tag t">T</span>輕節奏 5km<div class="note">熱身2k + T 2km@6:20 + 冷卻1k</div></td>
+            <td><span class="tag rest">休息</span>伸展 / 滾筒放鬆<div class="note">15–20min 泡沫軸</div></td>
+            <td><span class="tag lsd">LSD</span>輕鬆長跑 10km<div class="note">7:20–7:30/km · 純有氧恢復</div></td>
+            <td class="vol">20 km</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="schedule-panel" id="m2">
+      <span class="phase-tag" style="background:#E1F5EE;color:#0F6E56;">基礎期 · 第2個月（6月）</span>
+      <div class="alert green">重點：有氧基礎持續累積，節奏跑配速從6:20逐步壓縮至6:10，長跑首次突破16km。第8週恢復週，強度與量同步下降。</div>
+      <table>
+        <thead><tr><th width="72">週次</th><th>週一</th><th>週三</th><th>週五</th><th>週六/日</th><th width="56">週量</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="wk">第5週</div><div class="wn">基礎強化</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 6km<div class="note">7:00–7:10/km</div></td>
+            <td><span class="tag t">T</span>節奏跑 7km<div class="note">熱2k＋T 4km@6:15＋冷1k</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 5km<span class="tag str">肌力</span><div class="note">7:10/km＋核心20min</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 14km<div class="note">7:15–7:30/km</div></td>
+            <td class="vol">32 km</td>
+          </tr>
+          <tr>
+            <td><div class="wk">第6週</div><div class="wn">引入長間歇</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 7km<div class="note">7:00/km</div></td>
+            <td><span class="tag i">I</span>間歇跑 ≈7km<div class="note">熱2k＋8×400m@5:20（休90s）＋冷2k</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 6km<div class="note">7:10/km 恢復日</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 14km<div class="note">7:10–7:25/km</div></td>
+            <td class="vol">34 km</td>
+          </tr>
+          <tr>
+            <td><div class="wk">第7週</div><div class="wn">強度微增</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 7km<div class="note">7:00/km</div></td>
+            <td><span class="tag t">T</span>節奏跑 8km<div class="note">熱2k＋T 5km@6:10＋冷1k</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 5km<span class="tag str">肌力</span><div class="note">單腳深蹲、臀橋、側棒式</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 16km<div class="note">7:15/km · 後4km嘗試加速</div></td>
+            <td class="vol">36 km</td>
+          </tr>
+          <tr class="recovery">
+            <td><div class="wk">第8週</div><div class="wn" style="color:#BA7517;">減量週 ↓</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 5km<div class="note">7:15/km 全程輕鬆</div></td>
+            <td><span class="tag t">T</span>輕節奏 6km<div class="note">熱2k＋T 3km@6:20＋冷1k</div></td>
+            <td><span class="tag rest">休息</span>伸展/滾筒<div class="note">泡沫軸15min＋靜態伸展</div></td>
+            <td><span class="tag lsd">LSD</span>輕鬆長跑 10km<div class="note">7:20–7:30/km 純恢復</div></td>
+            <td class="vol">21 km</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="schedule-panel" id="m3">
+      <span class="phase-tag" style="background:#E1F5EE;color:#0F6E56;">基礎期末段 → 強化期銜接（7月）</span>
+      <div class="alert" style="border-left-color:#378ADD;">重點：LSD 首次觸及17km，節奏跑引入600m間歇組。第12週為<strong>期中測驗一</strong>（10K計時賽），前後減量保護狀態。</div>
+      <table>
+        <thead><tr><th width="72">週次</th><th>週一</th><th>週三</th><th>週五</th><th>週六/日</th><th width="56">週量</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="wk">第9週</div><div class="wn">LSD 延長</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 7km<div class="note">7:00/km</div></td>
+            <td><span class="tag i">I</span>間歇跑 ≈8km<div class="note">熱2k＋6×600m@5:15（休2min）＋冷2k</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 6km<div class="note">7:05/km</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 17km<div class="note">7:10–7:20/km</div></td>
+            <td class="vol">38 km</td>
+          </tr>
+          <tr>
+            <td><div class="wk">第10週</div><div class="wn">T 配速提升</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 8km<div class="note">7:00/km</div></td>
+            <td><span class="tag t">T</span>節奏跑 9km<div class="note">熱2k＋T 6km@6:05＋冷1k</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 7km<div class="note">7:05/km</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 16km<div class="note">7:10/km</div></td>
+            <td class="vol">40 km</td>
+          </tr>
+          <tr class="recovery">
+            <td><div class="wk">第11週</div><div class="wn" style="color:#BA7517;">賽前準備週</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 6km<div class="note">7:05/km</div></td>
+            <td><span class="tag t">T</span>節奏跑 7km<div class="note">熱2k＋T 4km@6:05＋冷1k 強度略降</div></td>
+            <td><span class="tag rest">休息</span>或輕走30min<div class="note">讓身體蓄積能量</div></td>
+            <td><span class="tag lsd">LSD</span>輕鬆 12km<div class="note">7:20/km 養精蓄銳</div></td>
+            <td class="vol">25 km</td>
+          </tr>
+          <tr class="testweek">
+            <td><div class="wk">第12週</div><div class="wn" style="color:#534AB7;">⭐ 期中測驗一</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 5km<div class="note">7:15/km 保持腿感</div></td>
+            <td><span class="tag e">E</span>4km＋<span class="tag str">4×100m</span><div class="note">快步跑（strides）激活</div></td>
+            <td><span class="tag rest">完全休息</span><div class="note">補充碳水、早睡</div></td>
+            <td><span class="tag test">10K 計時賽</span><div class="note">熱身2k＋全力10K（目標62–65min）＋冷卻2k</div></td>
+            <td class="vol">23 km</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="schedule-panel" id="m4">
+      <span class="phase-tag" style="background:#E6F1FB;color:#185FA5;">強化期（8月）</span>
+      <div class="alert" style="border-left-color:#378ADD;">重點：進入正式強化期，間歇升級至1000m組，節奏跑配速壓至5:52–5:55。第16週長跑首次破20km（關鍵里程碑）。注意夏末熱浪，配速以心率為準。</div>
+      <table>
+        <thead><tr><th width="72">週次</th><th>週一</th><th>週三</th><th>週五</th><th>週六/日</th><th width="56">週量</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="wk">第13週</div><div class="wn">1000m 間歇</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 8km<div class="note">7:00/km</div></td>
+            <td><span class="tag i">I</span>間歇跑 ≈11km<div class="note">熱2k＋5×1000m@5:20（休2.5min）＋冷2k</div></td>
+            <td><span class="tag t">T</span>節奏跑 7km<div class="note">熱2k＋T 4km@5:58＋冷1k</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 18km<div class="note">7:10/km · 後段維持配速</div></td>
+            <td class="vol">44 km</td>
+          </tr>
+          <tr>
+            <td><div class="wk">第14週</div><div class="wn">T+I 雙強度</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 8km<div class="note">7:00/km</div></td>
+            <td><span class="tag t">T</span>節奏跑 10km<div class="note">熱2k＋T 7km@5:55＋冷1k</div></td>
+            <td><span class="tag i">I</span>間歇跑 ≈8km<div class="note">熱2k＋6×600m@5:10（休90s）＋冷2k</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 18km<div class="note">7:05–7:15/km</div></td>
+            <td class="vol">44 km</td>
+          </tr>
+          <tr class="recovery">
+            <td><div class="wk">第15週</div><div class="wn" style="color:#BA7517;">減量週 ↓</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 7km<div class="note">7:05/km</div></td>
+            <td><span class="tag t">T</span>輕節奏 7km<div class="note">熱2k＋T 4km@6:00＋冷1k</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 6km<div class="note">7:10/km</div></td>
+            <td><span class="tag lsd">LSD</span>輕鬆 14km<div class="note">7:15–7:25/km</div></td>
+            <td class="vol">34 km</td>
+          </tr>
+          <tr>
+            <td><div class="wk">第16週</div><div class="wn">首次 20km LSD</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 8km<div class="note">7:00/km</div></td>
+            <td><span class="tag i">I</span>間歇跑 ≈9km<div class="note">熱2k＋4×1200m@5:20（休2.5min）＋冷2k</div></td>
+            <td><span class="tag t">T</span>節奏跑 8km<div class="note">熱2k＋T 5km@5:52＋冷1k</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 20km ⭐<div class="note">7:10/km · 里程碑！補給測試</div></td>
+            <td class="vol">45 km</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="schedule-panel" id="m5">
+      <span class="phase-tag" style="background:#E6F1FB;color:#185FA5;">強化期末段（9月）</span>
+      <div class="alert" style="border-left-color:#185FA5;">重點：氣溫開始下降（中秋後），是提速黃金時機。節奏跑突破5:45，19週LSD首次完整半馬距離21km，體能評估關鍵時刻。第18週恢復後蓄力衝刺。</div>
+      <table>
+        <thead><tr><th width="72">週次</th><th>週一</th><th>週三</th><th>週五</th><th>週六/日</th><th width="56">週量</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="wk">第17週</div><div class="wn">T 8km 突破</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 9km<div class="note">7:00/km</div></td>
+            <td><span class="tag t">T</span>節奏跑 11km<div class="note">熱2k＋T 8km@5:50＋冷1k</div></td>
+            <td><span class="tag i">I</span>間歇跑 ≈9km<div class="note">熱2k＋8×600m@5:10（休90s）＋冷2k</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 20km<div class="note">7:05/km · 維持均速</div></td>
+            <td class="vol">49 km</td>
+          </tr>
+          <tr class="recovery">
+            <td><div class="wk">第18週</div><div class="wn" style="color:#BA7517;">減量週 ↓</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 7km<div class="note">7:05/km</div></td>
+            <td><span class="tag t">T</span>輕節奏 8km<div class="note">熱2k＋T 5km@5:55＋冷1k</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 6km<div class="note">7:10/km</div></td>
+            <td><span class="tag lsd">LSD</span>輕鬆 16km<div class="note">7:15/km 充分恢復</div></td>
+            <td class="vol">37 km</td>
+          </tr>
+          <tr>
+            <td><div class="wk">第19週</div><div class="wn">首次21km LSD ⭐</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 9km<div class="note">7:00/km</div></td>
+            <td><span class="tag i">I</span>間歇跑 ≈11km<div class="note">熱2k＋5×1000m@5:15（休2min）＋冷2k</div></td>
+            <td><span class="tag t">T</span>節奏跑 9km<div class="note">熱2k＋T 6km@5:48＋冷1k</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 21km ⭐<div class="note">7:00–7:10/km · 完整半馬距離！</div></td>
+            <td class="vol">50 km</td>
+          </tr>
+          <tr>
+            <td><div class="wk">第20週</div><div class="wn">強化期高峰</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 10km<div class="note">7:00/km</div></td>
+            <td><span class="tag t">T</span>節奏跑 12km<div class="note">熱2k＋T 9km@5:45＋冷1k</div></td>
+            <td><span class="tag i">I</span>間歇跑 ≈9km<div class="note">熱2k＋6×800m@5:15（休2min）＋冷2k</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 21km<div class="note">7:00/km</div></td>
+            <td class="vol">52 km</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="schedule-panel" id="m6">
+      <span class="phase-tag" style="background:#FAEEDA;color:#854F0B;">高峰期（10月）</span>
+      <div class="alert amber">重點：最高訓練刺激月份。節奏跑觸及目標配速5:41，LSD 推至22–23km。第24週<strong>期中測驗二</strong>（15K模擬賽），驗證配速儲備，預期6:00以內完成。</div>
+      <table>
+        <thead><tr><th width="72">週次</th><th>週一</th><th>週三</th><th>週五</th><th>週六/日</th><th width="56">週量</th></tr></thead>
+        <tbody>
+          <tr class="recovery">
+            <td><div class="wk">第21週</div><div class="wn" style="color:#BA7517;">減量過渡</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 8km<div class="note">7:00/km</div></td>
+            <td><span class="tag t">T</span>節奏跑 9km<div class="note">熱2k＋T 6km@5:50＋冷1k</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 7km<div class="note">7:05/km</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 18km<div class="note">7:05/km</div></td>
+            <td class="vol">42 km</td>
+          </tr>
+          <tr>
+            <td><div class="wk">第22週</div><div class="wn">1600m 間歇</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 10km<div class="note">7:00/km</div></td>
+            <td><span class="tag i">I</span>間歇跑 ≈10km<div class="note">熱2k＋4×1600m@5:20（休3min）＋冷2k</div></td>
+            <td><span class="tag t">T</span>節奏跑 10km<div class="note">熱2k＋T 7km@5:42＋冷1k</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 22km<div class="note">6:55–7:10/km</div></td>
+            <td class="vol">52 km</td>
+          </tr>
+          <tr>
+            <td><div class="wk">第23週</div><div class="wn">MP 節奏跑</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 10km<div class="note">7:00/km</div></td>
+            <td><span class="tag mp">MP</span>目標配速跑 13km<div class="note">熱2k＋MP 10km@5:41＋冷1k · 測試賽事感</div></td>
+            <td><span class="tag i">I</span>間歇跑 ≈10km<div class="note">熱2k＋8×800m@5:10（休2min）＋冷2k</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 23km<div class="note">6:55/km</div></td>
+            <td class="vol">56 km</td>
+          </tr>
+          <tr class="testweek">
+            <td><div class="wk">第24週</div><div class="wn" style="color:#534AB7;">⭐ 期中測驗二</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 6km<div class="note">7:10/km 保存狀態</div></td>
+            <td><span class="tag e">E</span>4km＋<span class="tag str">4×150m 快步</span><div class="note">strides 激活神經肌肉</div></td>
+            <td><span class="tag rest">完全休息</span><div class="note">補充碳水、充足睡眠</div></td>
+            <td><span class="tag test">15K 模擬賽</span><div class="note">熱身2k＋15K全力（目標&lt;90min / 6:00/km）＋冷卻2k</div></td>
+            <td class="vol">29 km</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="schedule-panel" id="m7">
+      <span class="phase-tag" style="background:#FAEEDA;color:#854F0B;">高峰期末段（11月上旬）</span>
+      <div class="alert amber">重點：本月是整個計畫訓練量與強度的<strong>絕對高峰</strong>。LSD 推至24–25km，第28週為峰值週（~60km）。完成後立即進入賽前減量，切勿在此月過度拼搏造成傷害。</div>
+      <table>
+        <thead><tr><th width="72">週次</th><th>週一</th><th>週三</th><th>週五</th><th>週六/日</th><th width="56">週量</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="wk">第25週</div><div class="wn">LSD 24km</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 10km<div class="note">7:00/km</div></td>
+            <td><span class="tag i">I</span>間歇跑 ≈10km<div class="note">熱2k＋6×1000m@5:12（休2min）＋冷2k</div></td>
+            <td><span class="tag t">T</span>節奏跑 12km<div class="note">熱2k＋T 9km@5:41＋冷1k</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 24km ⭐<div class="note">6:50–7:00/km · 最長訓練日</div></td>
+            <td class="vol">56 km</td>
+          </tr>
+          <tr>
+            <td><div class="wk">第26週</div><div class="wn">分段 T 跑</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 10km<div class="note">7:00/km</div></td>
+            <td><span class="tag t">T</span>分段節奏 14km<div class="note">熱2k＋T 5km@5:45＋慢跑800m恢復＋T 5km@5:41＋冷1.2k</div></td>
+            <td><span class="tag i">I</span>間歇跑 ≈10km<div class="note">熱2k＋5×1200m@5:10（休2.5min）＋冷2k</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 24km<div class="note">6:55/km</div></td>
+            <td class="vol">58 km</td>
+          </tr>
+          <tr class="recovery">
+            <td><div class="wk">第27週</div><div class="wn" style="color:#BA7517;">減量週 ↓</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 9km<div class="note">7:05/km</div></td>
+            <td><span class="tag t">T</span>節奏跑 10km<div class="note">熱2k＋T 7km@5:45＋冷1k</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 8km<div class="note">7:05/km</div></td>
+            <td><span class="tag lsd">LSD</span>輕鬆 22km<div class="note">7:00/km 維持感覺</div></td>
+            <td class="vol">49 km</td>
+          </tr>
+          <tr>
+            <td><div class="wk">第28週</div><div class="wn">訓練高峰週 ⭐</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 11km<div class="note">7:00/km</div></td>
+            <td><span class="tag i">I</span>間歇跑 ≈11km<div class="note">熱2k＋8×800m@5:10（休2min）＋冷2k</div></td>
+            <td><span class="tag t">T</span>節奏跑 13km<div class="note">熱2k＋T 10km@5:41 MP配速＋冷1k</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 25km ⭐<div class="note">6:55/km · 全計畫最長距離</div></td>
+            <td class="vol">60 km</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="schedule-panel" id="m8">
+      <span class="phase-tag" style="background:#EEEDFE;color:#534AB7;">賽前減量期（11月中旬 – 12月底）</span>
+      <div class="alert red">重點：量的大幅遞減（60→46→36→28→20km），強度保留維持神經肌肉感覺。此階段最大禁忌是「恐慌性加練」——超補償正在發生，相信訓練過程。</div>
+      <table>
+        <thead><tr><th width="72">週次</th><th>週一</th><th>週三</th><th>週五</th><th>週六/日</th><th width="56">週量</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="wk">第29週</div><div class="wn">減量第一週</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 9km<div class="note">7:05/km</div></td>
+            <td><span class="tag t">T</span>節奏跑 9km<div class="note">熱2k＋T 6km@5:45＋冷1k</div></td>
+            <td><span class="tag i">I</span>短間歇 ≈8km<div class="note">熱2k＋4×1000m@5:15（休2min）＋冷2k</div></td>
+            <td><span class="tag lsd">LSD</span>長跑 18km<div class="note">7:00/km · 量開始遞減</div></td>
+            <td class="vol">44 km</td>
+          </tr>
+          <tr class="recovery">
+            <td><div class="wk">第30週</div><div class="wn">減量第二週</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 7km<div class="note">7:05/km</div></td>
+            <td><span class="tag t">T</span>節奏跑 7km<div class="note">熱2k＋T 4km@5:45＋冷1k</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 5km<div class="note">7:10/km</div></td>
+            <td><span class="tag lsd">LSD</span>輕鬆 14km<div class="note">7:05/km</div></td>
+            <td class="vol">33 km</td>
+          </tr>
+          <tr class="recovery">
+            <td><div class="wk">第31週</div><div class="wn">減量第三週</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 5km<div class="note">7:10/km</div></td>
+            <td><span class="tag mp">MP</span>配速感知跑 7km<div class="note">熱2k＋MP 3km@5:41＋冷2k · 喚回賽事感</div></td>
+            <td><span class="tag e">E</span>4km＋<span class="tag str">4×100m 快步</span><div class="note">strides 保持腿部彈性</div></td>
+            <td><span class="tag e">E</span>輕鬆跑 10km<div class="note">7:10/km</div></td>
+            <td class="vol">26 km</td>
+          </tr>
+          <tr class="raceweek">
+            <td><div class="wk">第32週</div><div class="wn" style="color:#0F6E56;">🏁 比賽週</div></td>
+            <td><span class="tag e">E</span>4km 輕鬆<div class="note">7:15/km 保持腿感</div></td>
+            <td><span class="tag e">E</span>3km＋<span class="tag str">3×100m</span><div class="note">strides · 最後激活</div></td>
+            <td><span class="tag rest">完全休息</span><div class="note">碳水補充 / 裝備整理</div></td>
+            <td><span class="tag test">🏁 台北馬半馬</span><div class="note">正式比賽！目標 SUB 2 / 5:41/km</div></td>
+            <td class="vol">~28 km</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
+function updateThemeButton(isDark) {
+  var btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  btn.textContent = isDark ? '切換淺色模式' : '切換深色模式';
+  btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+}
+
+function applyTheme(isDark) {
+  document.body.classList.toggle('dark-mode', isDark);
+  updateThemeButton(isDark);
+}
+
+function initThemeToggle() {
+  var saved = localStorage.getItem('joy-theme');
+  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var isDark = saved ? saved === 'dark' : prefersDark;
+
+  applyTheme(isDark);
+
+  var btn = document.getElementById('themeToggle');
+  if (btn) {
+    btn.addEventListener('click', function () {
+      var nextDark = !document.body.classList.contains('dark-mode');
+      applyTheme(nextDark);
+      localStorage.setItem('joy-theme', nextDark ? 'dark' : 'light');
+    });
+  }
+}
+
+initThemeToggle();
+
+function applyFontSize(size) {
+  document.body.classList.remove('font-size-small', 'font-size-medium', 'font-size-large');
+
+  if (size === 'small') {
+    document.body.classList.add('font-size-small');
+  } else if (size === 'large') {
+    document.body.classList.add('font-size-large');
+  } else {
+    document.body.classList.add('font-size-medium');
+  }
+
+  var picker = document.getElementById('fontSizeSelect');
+  if (picker) {
+    picker.value = size;
+  }
+}
+
+function initFontSizePicker() {
+  var saved = localStorage.getItem('joy-font-size') || 'medium';
+  applyFontSize(saved);
+
+  var picker = document.getElementById('fontSizeSelect');
+  if (picker) {
+    picker.addEventListener('change', function () {
+      var selected = picker.value;
+      applyFontSize(selected);
+      localStorage.setItem('joy-font-size', selected);
+    });
+  }
+}
+
+initFontSizePicker();
+
+function showMonth(id, btn){
+  document.querySelectorAll('.schedule-panel').forEach(function(panel){
+    panel.classList.remove('active');
+  });
+  document.querySelectorAll('.schedule-tab').forEach(function(tab){
+    tab.classList.remove('active');
+  });
+  var target = document.getElementById(id);
+  if (target) {
+    target.classList.add('active');
+  }
+  if (btn) {
+    btn.classList.add('active');
+  }
+}
+
 const weeks = Array.from({length:32},(_,i)=>i+1);
 const volumes = [21,29,31,20,32,34,36,26,38,40,37,38,42,44,38,46,48,42,50,52,46,54,56,48,58,60,52,62,46,36,28,20];
 const phases = weeks.map(w => w<=10?0:w<=20?1:w<=28?2:3);
