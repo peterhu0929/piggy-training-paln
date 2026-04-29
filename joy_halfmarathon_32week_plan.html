@@ -189,12 +189,24 @@ body {
 .test { background: #EEEDFE; color: #3C3489; }
 
 @media (max-width: 768px) {
+  :root {
+    --fs-10: 11px;
+    --fs-11: 12px;
+    --fs-12: 14px;
+    --fs-13: 16px;
+    --fs-16: 22px;
+  }
+
   div[style="padding: 1.25rem 0;"] {
     padding: .75rem 0 !important;
   }
 
   .section {
     margin-bottom: 1.25rem;
+    padding: 10px;
+    border: 1px solid var(--color-border-tertiary);
+    border-radius: 12px;
+    background: var(--color-background-primary);
   }
 
   .section-title {
@@ -264,14 +276,21 @@ body {
   }
 
   .schedule-panel {
-    overflow-x: auto;
+    overflow: auto;
     -webkit-overflow-scrolling: touch;
     padding-bottom: 6px;
-    scrollbar-width: thin;
+    max-height: 68vh;
+    scrollbar-width: auto;
+    scrollbar-color: var(--color-text-tertiary) var(--color-background-secondary);
+    scrollbar-gutter: stable;
+    border: 1px solid var(--color-border-tertiary);
+    border-radius: 12px;
+    padding: 8px;
+    background: var(--color-background-primary);
   }
 
   .schedule-panel::after {
-    content: '左右滑動可查看完整課表';
+    content: '可上下滑動檢視本月課表，左右滑動查看完整欄位';
     display: block;
     font-size: var(--fs-10);
     color: var(--color-text-tertiary);
@@ -307,6 +326,22 @@ body {
   .schedule-panel tr.recovery td:first-child { background: rgba(250,238,218,0.35); }
   .schedule-panel tr.testweek td:first-child { background: rgba(238,237,254,0.4); }
   .schedule-panel tr.raceweek td:first-child { background: rgba(225,245,238,0.4); }
+
+  .schedule-panel::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .schedule-panel::-webkit-scrollbar-track {
+    background: var(--color-background-secondary);
+    border-radius: 999px;
+  }
+
+  .schedule-panel::-webkit-scrollbar-thumb {
+    background: var(--color-text-tertiary);
+    border-radius: 999px;
+    border: 2px solid var(--color-background-secondary);
+  }
 }
 
 @media (max-width: 430px) {
