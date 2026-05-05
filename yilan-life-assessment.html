@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>宜蘭移居壓力測試｜生活阻力自我檢視表</title>
+  <style>
+    :root {
+      --green-dark:   #1B4332;
+      --green:        #2D6A4F;
+      --green-mid:    #40916C;
+      --green-light:  #52B788;
+      --green-pale:   #B7E4C7;
+      --green-ultra:  #D8F3DC;
+      --blue-pale:    #D0E8FF;
+      --orange-pale:  #FFE8D6;
+      --purple-pale:  #F3D9F7;
+      --accent:       #E76F51;
+      --accent-light: #F4A261;
+      --red:          #C1121F;
+      --yellow:       #FFC300;
+      --bg:           #F5F8F6;
+      --card:         #FFFFFF;
+      --text:         #1A2620;
+      --text-sub:     #5A6B62;
+      --border:       #DDE8E2;
+      --shadow:       0 4px 24px rgba(0,0,0,0.07);
+      --shadow-hover: 0 8px 32px rgba(45,106,79,0.14);
+      --r:            16px;
+      --r-sm:         10px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', 'Microsoft JhengHei', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(140deg, var(--green-dark) 0%, var(--green) 55%, var(--green-mid) 100%);
+      color: #fff;
+      padding: 64px 24px 88px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='28'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
+    .hero h1 {
+      font-size: clamp(1.7rem, 4.5vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+      margin-bottom: 10px;
+    }
+    .hero-sub {
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      opacity: 0.85;
+      max-width: 520px;
+      margin: 0 auto 28px;
+    }
+    .hero-badges {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .badge {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      backdrop-filter: blur(6px);
+    }
+
+    /* ── Sticky Score Bar ── */
+    .score-panel {
+      position: sticky;
+      top: 12px;
+      z-index: 200;
+      max-width: 880px;
+      margin: -36px auto 36px;
+      padding: 0 16px;
+    }
+    .score-card {
+      background: var(--card);
+      border-radius: var(--r);
+      box-shadow: 0 6px 32px rgba(0,0,0,0.12);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      border: 1.5px solid var(--border);
+    }
+
+    .score-display { text-align: center; min-width: 90px; }
+    .score-num {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--green);
+      line-height: 1;
+      transition: color 0.4s;
+    }
+    .score-cap { font-size: 0.75rem; color: var(--text-sub); margin-top: 2px; }
+
+    .vdiv { width: 1px; height: 56px; background: var(--border); flex-shrink: 0; }
+
+    .prog-wrap { flex: 1; min-width: 180px; }
+    .prog-meta {
+      display: flex; justify-content: space-between;
+      font-size: 0.8rem; color: var(--text-sub); margin-bottom: 7px;
+    }
+    .prog-bg {
+      background: var(--green-pale);
+      border-radius: 100px;
+      height: 9px;
+      overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--green-light), var(--green));
+      transition: width 0.45s cubic-bezier(.4,0,.2,1);
+      width: 0%;
+    }
+
+    .level-wrap { text-align: center; min-width: 110px; }
+    .level-pill {
+      display: inline-block;
+      padding: 5px 16px;
+      border-radius: 100px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+    .lvl-0 { background: #EEF2F0; color: var(--text-sub); }
+    .lvl-1 { background: #D8F3DC; color: var(--green-dark); }
+    .lvl-2 { background: var(--green-pale); color: var(--green-dark); }
+    .lvl-3 { background: #FFF3B0; color: #856404; }
+    .lvl-4 { background: #FFD9B5; color: #7D3900; }
+    .lvl-5 { background: #FFCCCB; color: #7D0A0A; }
+    .level-desc { font-size: 0.72rem; color: var(--text-sub); margin-top: 5px; line-height: 1.3; }
+
+    /* ── Main ── */
+    main {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 16px 96px;
+    }
+
+    /* ── Instruction Box ── */
+    .instruction-box {
+      background: linear-gradient(135deg, #EBF5EE 0%, #F5FAF7 100%);
+      border: 1px solid var(--green-pale);
+      border-radius: var(--r);
+      padding: 20px 24px;
+      margin-bottom: 36px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .inst-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+    .inst-body h3 { font-size: 0.97rem; color: var(--green); margin-bottom: 6px; }
+    .inst-body p { font-size: 0.85rem; color: var(--text-sub); margin-bottom: 10px; }
+    .scale-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .scale-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 1rem;
+      color: var(--text-sub);
+      font-weight:bolder;
+    }
+    .dot {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.73rem; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .d1 { background: #52B788; }
+    .d2 { background: #95D5B2; color: var(--green-dark) !important; }
+    .d3 { background: var(--accent-light); }
+    .d4 { background: var(--accent); }
+    .d5 { background: var(--red); }
+
+    /* ── Category ── */
+    .category { margin-bottom: 44px; }
+
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--border);
+    }
+    .cat-icon {
+      width: 50px; height: 50px;
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .c1 .cat-icon { background: var(--green-ultra); }
+    .c2 .cat-icon { background: var(--blue-pale); }
+    .c3 .cat-icon { background: var(--orange-pale); }
+    .c4 .cat-icon { background: var(--purple-pale); }
+
+    .cat-info { flex: 1; }
+    .cat-info h2 { font-size: 1.5rem; font-weight: 700; }
+    .cat-info p { font-size: 0.96rem; color: var(--text-sub); }
+    .cat-pts {
+      background: var(--green-ultra);
+      color: var(--green);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    /* ── Question Card ── */
+    .q-card {
+      background: var(--card);
+      border-radius: var(--r);
+      border: 1.5px solid var(--border);
+      padding: 20px 22px;
+      margin-bottom: 12px;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .q-card:hover { border-color: var(--green-light); box-shadow: var(--shadow-hover); }
+    .q-card.done { border-color: var(--green-light); background: linear-gradient(135deg, #FAFFFE, #FFFFFF); }
+    .q-card.error { border-color: var(--accent) !important; animation: shake 0.4s ease; }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25%      { transform: translateX(-6px); }
+      75%      { transform: translateX(6px); }
+    }
+
+    .done-dot {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--green-light);
+      display: none;
+    }
+    .q-card.done .done-dot { display: block; }
+
+    .q-head { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+    .q-num {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: var(--green-ultra);
+      color: var(--green);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem; font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .q-text { flex: 1; }
+    .q-title { font-size: 1.5rem; font-weight: 600; }
+    .q-sub { font-size: 1rem; color: var(--text-sub); margin-top: 3px; line-height: 1.55; }
+
+    /* ── Rating Buttons ── */
+    .rating {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .r-opt { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+    .r-opt input[type="radio"] { display: none; }
+    .r-opt label {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 700;
+      transition: all 0.18s;
+      color: var(--text-sub);
+      user-select: none;
+    }
+    .r-opt label:hover { border-color: var(--green-light); transform: scale(1.08); color: var(--green); }
+    .r-opt input:checked + label {
+      border-color: transparent;
+      color: #fff;
+      transform: scale(1.15);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    }
+    .r-opt:nth-child(1) input:checked + label { background: #52B788; }
+    .r-opt:nth-child(2) input:checked + label { background: #95D5B2; color: var(--green-dark); }
+    .r-opt:nth-child(3) input:checked + label { background: var(--accent-light); }
+    .r-opt:nth-child(4) input:checked + label { background: var(--accent); }
+    .r-opt:nth-child(5) input:checked + label { background: var(--red); }
+    .r-label { font-size: 0.62rem; color: var(--text-sub); text-align: center; line-height: 1.25; max-width: 40px; }
+
+    /* ── Actions ── */
+    .action-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 13px 32px;
+      border-radius: 100px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      font-family: inherit;
+      letter-spacing: 0.02em;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--green-light), var(--green));
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(45,106,79,0.3);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 7px 24px rgba(45,106,79,0.4); }
+    .btn-outline {
+      background: var(--card);
+      color: var(--text-sub);
+      border: 1.5px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--green-light); color: var(--green); }
+
+    .alert {
+      display: none;
+      background: #FFF3CD;
+      border: 1px solid var(--yellow);
+      border-radius: var(--r-sm);
+      padding: 12px 18px;
+      font-size: 0.85rem;
+      color: #856404;
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    /* ── Results ── */
+    #resultsSection {
+      display: none;
+      background: var(--card);
+      border-radius: var(--r);
+      border: 2px solid var(--border);
+      padding: 36px 32px;
+      margin-top: 56px;
+    }
+    .res-title { text-align: center; font-size: 1.5rem; font-weight: 800; margin-bottom: 6px; }
+    .res-sub { text-align: center; font-size: 0.88rem; color: var(--text-sub); margin-bottom: 36px; }
+
+    /* Score Gauge */
+    .gauge-wrap { text-align: center; margin-bottom: 36px; }
+    .gauge-score {
+      font-size: 5rem;
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--green), var(--green-mid));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gauge-max { font-size: 1rem; color: var(--text-sub); margin-top: 4px; }
+    .gauge-level-pill {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 8px 28px;
+      border-radius: 100px;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    /* Level Cards Grid */
+    .level-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+    .lv-card {
+      border-radius: var(--r-sm);
+      padding: 16px;
+      border: 2px solid transparent;
+      opacity: 0.55;
+      transition: all 0.35s;
+    }
+    .lv-card.active { opacity: 1; transform: scale(1.04); box-shadow: var(--shadow); }
+    .lv1 { background: #D8F3DC; border-color: #52B788; }
+    .lv2 { background: var(--green-pale); border-color: #40916C; }
+    .lv3 { background: #FFF3B0; border-color: var(--yellow); }
+    .lv4 { background: #FFD9B5; border-color: var(--accent); }
+    .lv5 { background: #FFCCCB; border-color: var(--red); }
+    .lv-range { font-size: 1.05rem; font-weight: 800; margin-bottom: 3px; }
+    .lv1 .lv-range,.lv2 .lv-range { color: var(--green-dark); }
+    .lv3 .lv-range { color: #856404; }
+    .lv4 .lv-range { color: #7D3900; }
+    .lv5 .lv-range { color: #7D0A0A; }
+    .lv-name { font-size: 0.88rem; font-weight: 700; margin-bottom: 6px; }
+    .lv-desc { font-size: 0.76rem; line-height: 1.5; color: var(--text-sub); }
+
+    /* Cat Bars */
+    .cat-bars {
+      background: var(--bg);
+      border-radius: var(--r-sm);
+      padding: 22px;
+      margin-bottom: 28px;
+    }
+    .cat-bars h3 { font-size: 1rem; font-weight: 700; margin-bottom: 16px; }
+    .bar-row {
+      display: grid;
+      grid-template-columns: 148px 1fr 52px;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .bar-label { font-size: 1.5rem; color: var(--text-sub); }
+    .bar-bg { background: #DDE8E2; border-radius: 100px; height: 9px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 100px; transition: width 0.5s ease; }
+    .bar-val { font-size: 0.82rem; font-weight: 700; text-align: right; }
+
+    /* Joy section */
+    .joy-box {
+      background: linear-gradient(135deg, #FFF5F0, #FFF9F5);
+      border: 1.5px solid #FFD0C0;
+      border-radius: var(--r);
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .joy-box .joy-emoji { font-size: 2rem; margin-bottom: 8px; }
+    .joy-box h3 { font-size: 0.97rem; font-weight: 700; color: #7D3900; margin-bottom: 8px; }
+    .joy-box p { font-size: 0.85rem; color: var(--text-sub); max-width: 480px; margin: 0 auto; line-height: 1.65; }
+
+    /* ── Print ── */
+    @media print {
+      .score-panel, .action-row, .hero-badges, .joy-box { display: none !important; }
+      body { background: #fff; }
+      #resultsSection { display: block !important; border: none; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 580px) {
+      .score-card { gap: 14px; padding: 14px 16px; }
+      .score-num { font-size: 2.2rem; }
+      .vdiv { display: none; }
+      .rating { justify-content: center; }
+      .bar-row { grid-template-columns: 110px 1fr 42px; }
+      #resultsSection { padding: 24px 16px; }
+      .level-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero">
+  <span class="hero-emoji">🌿</span>
+  <h1>宜蘭移居壓力測試</h1>
+  <p class="hero-sub">生活阻力自我檢視問答表<br>20 道關鍵題，幫助您理性評估移居宜蘭的真實準備度</p>
+  <div class="hero-badges">
+    <span class="badge">📋 共 20 題</span>
+    <span class="badge">⭐ 每題 1–5 分</span>
+    <span class="badge">📊 滿分 100 分</span>
+    <span class="badge">⚡ 即時自動計分</span>
+  </div>
+</header>
+
+<!-- ═══ STICKY SCORE PANEL ═══ -->
+<div class="score-panel">
+  <div class="score-card">
+    <div class="score-display">
+      <div class="score-num" id="totalScore">0</div>
+      <div class="score-cap">生活阻力指數 / 100</div>
+    </div>
+    <div class="vdiv"></div>
+    <div class="prog-wrap">
+      <div class="prog-meta">
+        <span id="answeredText">已回答 0 / 20 題</span>
+        <span id="progPct">0%</span>
+      </div>
+      <div class="prog-bg">
+        <div class="prog-fill" id="progBar"></div>
+      </div>
+    </div>
+    <div class="vdiv"></div>
+    <div class="level-wrap">
+      <div class="level-pill lvl-0" id="levelPill">尚未作答</div>
+      <div class="level-desc" id="levelDesc">請開始填寫問卷</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<main>
+
+  <!-- Instructions -->
+  <div class="instruction-box">
+    <div class="inst-icon">📘</div>
+    <div class="inst-body">
+      <h3>填答說明</h3>
+      <p>每題代表移居宜蘭可能面臨的「生活阻力」，請依個人情況如實評分。分數越高代表該題阻力越大，填完 20 題後系統將自動生成分析報告。</p>
+      <div class="scale-legend">
+        <div class="scale-item"><div class="dot d1">1</div>完全沒問題</div>
+        <div class="scale-item"><div class="dot d2">2</div>小問題可克服</div>
+        <div class="scale-item"><div class="dot d3">3</div>有些顧慮</div>
+        <div class="scale-item"><div class="dot d4">4</div>相當擔憂</div>
+        <div class="scale-item"><div class="dot d5">5</div>無法接受</div>
+      </div>
+    </div>
+  </div>
+
+  <form id="form">
+
+    <!-- ───────── CATEGORY 1 ───────── -->
+    <section class="category c1">
+      <div class="cat-header">
+        <div class="cat-icon">🌿</div>
+        <div class="cat-info">
+          <h2>一、環境與硬體維護</h2>
+          <p>與大自然共存的日常挑戰</p>
+        </div>
+        <div class="cat-pts" id="c1pts">0 / 25 分</div>
+      </div>
+
+      <!-- Q1 -->
+      <div class="q-card" id="qc1"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">1</div>
+          <div class="q-text">
+            <div class="q-title">除濕系統的效能與電費</div>
+            <div class="q-sub">能否接受全屋除濕機 24 小時運轉，且每月電費增加 20–30%？</div>
+          </div>
+        </div>
+        <div class="rating" id="r1">
+          <div class="r-opt"><input type="radio" name="q1" id="q1a1" value="1"><label for="q1a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q1" id="q1a2" value="2"><label for="q1a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q1" id="q1a3" value="3"><label for="q1a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q1" id="q1a4" value="4"><label for="q1a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q1" id="q1a5" value="5"><label for="q1a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="q-card" id="qc2"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">2</div>
+          <div class="q-text">
+            <div class="q-title">昂貴裝備的鹽蝕風險</div>
+            <div class="q-sub">壯圍/五結臨海，高階公路車、計時車與電子產品，能否承受比汐止更強的鹽分侵蝕？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q2" id="q2a1" value="1"><label for="q2a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q2" id="q2a2" value="2"><label for="q2a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q2" id="q2a3" value="3"><label for="q2a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q2" id="q2a4" value="4"><label for="q2a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q2" id="q2a5" value="5"><label for="q2a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="q-card" id="qc3"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">3</div>
+          <div class="q-text">
+            <div class="q-title">透天維護的體力成本</div>
+            <div class="q-sub">習慣電梯大樓的垃圾處理與公設維修，是否準備好自行清理 3 層樓外牆、天溝與頂樓排水孔？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q3" id="q3a1" value="1"><label for="q3a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q3" id="q3a2" value="2"><label for="q3a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q3" id="q3a3" value="3"><label for="q3a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q3" id="q3a4" value="4"><label for="q3a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q3" id="q3a5" value="5"><label for="q3a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="q-card" id="qc4"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">4</div>
+          <div class="q-text">
+            <div class="q-title">冬季訓練的意志力</div>
+            <div class="q-sub">當宜蘭進入連續三週的陰雨低溫，能否維持原本在台北的訓練量，還是會進入「冬眠模式」？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q4" id="q4a1" value="1"><label for="q4a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q4" id="q4a2" value="2"><label for="q4a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q4" id="q4a3" value="3"><label for="q4a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q4" id="q4a4" value="4"><label for="q4a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q4" id="q4a5" value="5"><label for="q4a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="q-card" id="qc5"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">5</div>
+          <div class="q-text">
+            <div class="q-title">室內運動空間的排擠</div>
+            <div class="q-sub">若戶外下雨，家裡是否有足夠空間展開訓練台、跑步機，且不影響 Joy 的生活動線？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q5" id="q5a1" value="1"><label for="q5a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q5" id="q5a2" value="2"><label for="q5a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q5" id="q5a3" value="3"><label for="q5a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q5" id="q5a4" value="4"><label for="q5a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q5" id="q5a5" value="5"><label for="q5a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── CATEGORY 2 ───────── -->
+    <section class="category c2">
+      <div class="cat-header">
+        <div class="cat-icon">🚗</div>
+        <div class="cat-info">
+          <h2>二、交通與職涯連結</h2>
+          <p>空間與時間的權衡取捨</p>
+        </div>
+        <div class="cat-pts" id="c2pts">0 / 25 分</div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="q-card" id="qc6"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">6</div>
+          <div class="q-text">
+            <div class="q-title">國五隧道的心理邊際成本</div>
+            <div class="q-sub">每週若需往返南港/昆陽，對「雪隧塞車」的忍受極限是幾次？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q6" id="q6a1" value="1"><label for="q6a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q6" id="q6a2" value="2"><label for="q6a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q6" id="q6a3" value="3"><label for="q6a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q6" id="q6a4" value="4"><label for="q6a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q6" id="q6a5" value="5"><label for="q6a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="q-card" id="qc7"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">7</div>
+          <div class="q-text">
+            <div class="q-title">遠端工作的隔離感</div>
+            <div class="q-sub">脫離台北技術圈實體交流，資訊焦慮感會增加嗎？AI 工具能填補社交缺口嗎？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q7" id="q7a1" value="1"><label for="q7a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q7" id="q7a2" value="2"><label for="q7a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q7" id="q7a3" value="3"><label for="q7a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q7" id="q7a4" value="4"><label for="q7a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q7" id="q7a5" value="5"><label for="q7a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="q-card" id="qc8"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">8</div>
+          <div class="q-text">
+            <div class="q-title">維修與補給的後勤距離</div>
+            <div class="q-sub">習慣汐止/南港的單車維修與專業跑鞋店，宜蘭的 Time to Service 是否在容忍範圍內？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q8" id="q8a1" value="1"><label for="q8a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q8" id="q8a2" value="2"><label for="q8a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q8" id="q8a3" value="3"><label for="q8a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q8" id="q8a4" value="4"><label for="q8a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q8" id="q8a5" value="5"><label for="q8a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="q-card" id="qc9"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">9</div>
+          <div class="q-text">
+            <div class="q-title">宵夜與外送的斷層</div>
+            <div class="q-sub">半夜寫程式碼肚子餓時，能接受外送選擇從 100 家縮減到 3 家，甚至完全沒有嗎？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q9" id="q9a1" value="1"><label for="q9a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q9" id="q9a2" value="2"><label for="q9a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q9" id="q9a3" value="3"><label for="q9a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q9" id="q9a4" value="4"><label for="q9a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q9" id="q9a5" value="5"><label for="q9a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q10 -->
+      <div class="q-card" id="qc10"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">10</div>
+          <div class="q-text">
+            <div class="q-title">車輛折舊與保養</div>
+            <div class="q-sub">頻繁往返北宜，車輛里程數暴增帶來的維修成本與折舊，是否已納入年度財務計畫？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q10" id="q10a1" value="1"><label for="q10a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q10" id="q10a2" value="2"><label for="q10a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q10" id="q10a3" value="3"><label for="q10a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q10" id="q10a4" value="4"><label for="q10a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q10" id="q10a5" value="5"><label for="q10a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── CATEGORY 3 ───────── -->
+    <section class="category c3">
+      <div class="cat-header">
+        <div class="cat-icon">👨‍👩‍👧</div>
+        <div class="cat-info">
+          <h2>三、家庭與社交系統</h2>
+          <p>人際動態與家庭結構的變更</p>
+        </div>
+        <div class="cat-pts" id="c3pts">0 / 25 分</div>
+      </div>
+
+      <!-- Q11 -->
+      <div class="q-card" id="qc11"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">11</div>
+          <div class="q-text">
+            <div class="q-title">長輩醫療的及時性</div>
+            <div class="q-sub">若岳母或母親有緊急醫療需求，選址距最近醫學中心（如陽大附醫）車程是否在 15 分鐘內？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q11" id="q11a1" value="1"><label for="q11a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q11" id="q11a2" value="2"><label for="q11a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q11" id="q11a3" value="3"><label for="q11a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q11" id="q11a4" value="4"><label for="q11a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q11" id="q11a5" value="5"><label for="q11a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q12 -->
+      <div class="q-card" id="qc12"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">12</div>
+          <div class="q-text">
+            <div class="q-title">生活適應力</div>
+            <div class="q-sub">宜蘭的安靜是「清幽」還是「孤寂」？ 倆人是否也能在宜蘭找到跑友圈或生活重心？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q12" id="q12a1" value="1"><label for="q12a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q12" id="q12a2" value="2"><label for="q12a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q12" id="q12a3" value="3"><label for="q12a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q12" id="q12a4" value="4"><label for="q12a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q12" id="q12a5" value="5"><label for="q12a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q13 -->
+      <div class="q-card" id="qc13"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">13</div>
+          <div class="q-text">
+            <div class="q-title">社交圈的物理距離</div>
+            <div class="q-sub">台北朋友聚會變多時，是否會因為「要過隧道」而頻繁拒絕邀約，最終導致社交圈萎縮？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q13" id="q13a1" value="1"><label for="q13a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q13" id="q13a2" value="2"><label for="q13a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q13" id="q13a3" value="3"><label for="q13a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q13" id="q13a4" value="4"><label for="q13a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q13" id="q13a5" value="5"><label for="q13a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q14 -->
+      <div class="q-card" id="qc14"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">14</div>
+          <div class="q-text">
+            <div class="q-title">三層樓的垂直阻力</div>
+            <div class="q-sub">隨著長輩年紀增長，這棟沒有電梯的透天，未來五年內是否會變成家人的心理壓力？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q14" id="q14a1" value="1"><label for="q14a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q14" id="q14a2" value="2"><label for="q14a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q14" id="q14a3" value="3"><label for="q14a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q14" id="q14a4" value="4"><label for="q14a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q14" id="q14a5" value="5"><label for="q14a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q15 -->
+      <div class="q-card" id="qc15"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">15</div>
+          <div class="q-text">
+            <div class="q-title">生活步調的文化衝擊</div>
+            <div class="q-sub">習慣台北「高效率、快節奏」，能忍受宜蘭相對緩慢甚至有些「隨性」的服務速度嗎？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q15" id="q15a1" value="1"><label for="q15a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q15" id="q15a2" value="2"><label for="q15a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q15" id="q15a3" value="3"><label for="q15a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q15" id="q15a4" value="4"><label for="q15a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q15" id="q15a5" value="5"><label for="q15a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── CATEGORY 4 ───────── -->
+    <section class="category c4">
+      <div class="cat-header">
+        <div class="cat-icon">💰</div>
+        <div class="cat-info">
+          <h2>四、財務與機會成本</h2>
+          <p>CPA 視角的終極核算</p>
+        </div>
+        <div class="cat-pts" id="c4pts">0 / 25 分</div>
+      </div>
+
+      <!-- Q16 -->
+      <div class="q-card" id="qc16"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">16</div>
+          <div class="q-text">
+            <div class="q-title">房價增值的預期心理</div>
+            <div class="q-sub">若兩年後發現不適應，壯圍/五結的透天流動性是否足以讓您快速「止損」或「換軌」？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q16" id="q16a1" value="1"><label for="q16a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q16" id="q16a2" value="2"><label for="q16a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q16" id="q16a3" value="3"><label for="q16a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q16" id="q16a4" value="4"><label for="q16a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q16" id="q16a5" value="5"><label for="q16a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q17 -->
+      <div class="q-card" id="qc17"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">17</div>
+          <div class="q-text">
+            <div class="q-title">訓練環境的溢價意願</div>
+            <div class="q-sub">願意為了出門就能跑 LSD（長距離慢跑）的便利性，支付多少額外的生活成本？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q17" id="q17a1" value="1"><label for="q17a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q17" id="q17a2" value="2"><label for="q17a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q17" id="q17a3" value="3"><label for="q17a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q17" id="q17a4" value="4"><label for="q17a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q17" id="q17a5" value="5"><label for="q17a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q18 -->
+      <div class="q-card" id="qc18"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">18</div>
+          <div class="q-text">
+            <div class="q-title">裝潢預算的沉沒成本</div>
+            <div class="q-sub">400 萬的投入中，有多少是為「防潮、防鹽」的硬支出，而非提升美感的軟支出？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q18" id="q18a1" value="1"><label for="q18a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q18" id="q18a2" value="2"><label for="q18a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q18" id="q18a3" value="3"><label for="q18a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q18" id="q18a4" value="4"><label for="q18a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q18" id="q18a5" value="5"><label for="q18a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q19 -->
+      <div class="q-card" id="qc19"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">19</div>
+          <div class="q-text">
+            <div class="q-title">二戶貸款的投資限制</div>
+            <div class="q-sub">這筆房貸是否會卡死未來兩年內在台北或其他區域的投資靈活性（若適用）？</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q19" id="q19a1" value="1"><label for="q19a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q19" id="q19a2" value="2"><label for="q19a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q19" id="q19a3" value="3"><label for="q19a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q19" id="q19a4" value="4"><label for="q19a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q19" id="q19a5" value="5"><label for="q19a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+
+      <!-- Q20 -->
+      <div class="q-card" id="qc20"><div class="done-dot"></div>
+        <div class="q-head">
+          <div class="q-num">20</div>
+          <div class="q-text">
+            <div class="q-title">★ 核心動機的自我誠實</div>
+            <div class="q-sub">搬到宜蘭是為了「逃離台北的擁擠」，還是真的「擁抱宜蘭的生活」？這兩者的心理續航力完全不同。</div>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="r-opt"><input type="radio" name="q20" id="q20a1" value="1"><label for="q20a1">1</label><span class="r-label">完全<br>沒問題</span></div>
+          <div class="r-opt"><input type="radio" name="q20" id="q20a2" value="2"><label for="q20a2">2</label><span class="r-label">可以<br>接受</span></div>
+          <div class="r-opt"><input type="radio" name="q20" id="q20a3" value="3"><label for="q20a3">3</label><span class="r-label">有些<br>顧慮</span></div>
+          <div class="r-opt"><input type="radio" name="q20" id="q20a4" value="4"><label for="q20a4">4</label><span class="r-label">相當<br>擔憂</span></div>
+          <div class="r-opt"><input type="radio" name="q20" id="q20a5" value="5"><label for="q20a5">5</label><span class="r-label">無法<br>接受</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Submit ── -->
+    <div class="action-row">
+      <button type="button" class="btn btn-primary" onclick="showResults()">查看完整分析報告 →</button>
+      <button type="button" class="btn btn-outline" onclick="resetAll()">重新填寫</button>
+    </div>
+    <div class="alert" id="alertMsg"></div>
+
+  </form>
+
+  <!-- ═══ RESULTS SECTION ═══ -->
+  <div id="resultsSection">
+    <div class="res-title">📊 生活阻力指數分析報告</div>
+    <div class="res-sub">根據您的作答，以下是移居宜蘭的準備度評估結果</div>
+
+    <!-- Big Score -->
+    <div class="gauge-wrap">
+      <div class="gauge-score" id="resScore">—</div>
+      <div class="gauge-max">/ 100 分（生活阻力指數）</div>
+      <div><span class="gauge-level-pill lvl-0" id="resLevelPill">—</span></div>
+    </div>
+
+    <!-- Level Explanation Cards -->
+    <div class="level-grid">
+      <div class="lv-card lv1" id="lv1">
+        <div class="lv-range">20 – 35 分</div>
+        <div class="lv-name">🟢 低阻力</div>
+        <div class="lv-desc">準備充分，宜蘭生活與您的期望高度吻合，可以放心規劃移居時程。</div>
+      </div>
+      <div class="lv-card lv2" id="lv2">
+        <div class="lv-range">36 – 50 分</div>
+        <div class="lv-name">🔵 輕度阻力</div>
+        <div class="lv-desc">有少數顧慮，多數可透過提前規劃克服，建議逐項制定應對方案。</div>
+      </div>
+      <div class="lv-card lv3" id="lv3">
+        <div class="lv-range">51 – 65 分</div>
+        <div class="lv-name">🟡 中度阻力</div>
+        <div class="lv-desc">顧慮明顯，需與家人深入討論，建議優先解決高分題項再做決定。</div>
+      </div>
+      <div class="lv-card lv4" id="lv4">
+        <div class="lv-range">66 – 80 分</div>
+        <div class="lv-name">🟠 高度阻力</div>
+        <div class="lv-desc">多個維度存在嚴重疑慮，建議重新評估移居時機，或制定分階段計畫。</div>
+      </div>
+      <div class="lv-card lv5" id="lv5">
+        <div class="lv-range">81 – 100 分</div>
+        <div class="lv-name">🔴 極高阻力</div>
+        <div class="lv-desc">目前條件下阻力極大，強烈建議暫緩決定，重新審視核心移居需求。</div>
+      </div>
+    </div>
+
+    <!-- Category Bars -->
+    <div class="cat-bars">
+      <h3>各維度阻力分佈</h3>
+      <div class="bar-row">
+        <div class="bar-label">🌿 環境與硬體維護</div>
+        <div class="bar-bg"><div class="bar-fill" id="b1" style="background:#52B788;width:0%"></div></div>
+        <div class="bar-val" id="bv1">0/25</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">🚗 交通與職涯連結</div>
+        <div class="bar-bg"><div class="bar-fill" id="b2" style="background:#4B9FE1;width:0%"></div></div>
+        <div class="bar-val" id="bv2">0/25</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">👨‍👩‍👧 家庭與社交系統</div>
+        <div class="bar-bg"><div class="bar-fill" id="b3" style="background:#F4845F;width:0%"></div></div>
+        <div class="bar-val" id="bv3">0/25</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">💰 財務與機會成本</div>
+        <div class="bar-bg"><div class="bar-fill" id="b4" style="background:#C77DFF;width:0%"></div></div>
+        <div class="bar-val" id="bv4">0/25</div>
+      </div>
+    </div>
+
+    <!-- Joy Box -->
+    <div class="joy-box">
+      <div class="joy-emoji">💑</div>
+      <h3>PM 建議：邀請 Joy 一起填寫</h3>
+      <p>若兩人在「冬季訓練意志力（Q4）」或「長輩醫療及時性（Q11）」得分落差很大，那裡就是搬家後首要處理的「生活專案阻力」。建議將結果對比，討論分歧點。</p>
+    </div>
+
+    <div class="action-row">
+      <button type="button" class="btn btn-primary" onclick="window.print()">🖨 列印報告</button>
+      <button type="button" class="btn btn-outline" onclick="resetAll()">重新作答</button>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  const TOTAL = 20;
+  const CATS  = { 1:[1,2,3,4,5], 2:[6,7,8,9,10], 3:[11,12,13,14,15], 4:[16,17,18,19,20] };
+
+  function val(q) {
+    const el = document.querySelector(`input[name="q${q}"]:checked`);
+    return el ? +el.value : 0;
+  }
+
+  function catScore(c) { return CATS[c].reduce((s, q) => s + val(q), 0); }
+
+  function totalScore() {
+    return [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20].reduce((s,q) => s + val(q), 0);
+  }
+
+  function answeredCount() {
+    return [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+      .filter(q => document.querySelector(`input[name="q${q}"]:checked`)).length;
+  }
+
+  function levelInfo(score, answered) {
+    if (answered === 0)     return { pill:'尚未作答', cls:'lvl-0', desc:'請開始填寫問卷' };
+    if (answered < TOTAL)  return { pill:`作答中 ${answered}/${TOTAL}`, cls:'lvl-0', desc:`還有 ${TOTAL-answered} 題未作答` };
+    if (score <= 35)       return { pill:'低阻力', cls:'lvl-1', desc:'準備充分，可放心規劃移居' };
+    if (score <= 50)       return { pill:'輕度阻力', cls:'lvl-2', desc:'有少數顧慮，提前規劃可克服' };
+    if (score <= 65)       return { pill:'中度阻力', cls:'lvl-3', desc:'需認真討論並制定具體計畫' };
+    if (score <= 80)       return { pill:'高度阻力', cls:'lvl-4', desc:'建議重新評估移居時機' };
+    return                        { pill:'極高阻力', cls:'lvl-5', desc:'強烈建議暫緩移居決定' };
+  }
+
+  function activeResultCard(score) {
+    ['lv1','lv2','lv3','lv4','lv5'].forEach(id => document.getElementById(id).classList.remove('active'));
+    let id;
+    if (score <= 35)      id = 'lv1';
+    else if (score <= 50) id = 'lv2';
+    else if (score <= 65) id = 'lv3';
+    else if (score <= 80) id = 'lv4';
+    else                  id = 'lv5';
+    document.getElementById(id).classList.add('active');
+  }
+
+  function updateUI() {
+    const answered = answeredCount();
+    const score    = totalScore();
+    const pct      = Math.round(answered / TOTAL * 100);
+    const info     = levelInfo(score, answered);
+
+    // Top score bar
+    document.getElementById('totalScore').textContent  = score;
+    document.getElementById('answeredText').textContent = `已回答 ${answered} / ${TOTAL} 題`;
+    document.getElementById('progPct').textContent      = `${pct}%`;
+    document.getElementById('progBar').style.width      = `${pct}%`;
+
+    const pill = document.getElementById('levelPill');
+    pill.textContent  = info.pill;
+    pill.className    = `level-pill ${info.cls}`;
+    document.getElementById('levelDesc').textContent = info.desc;
+
+    // Category scores
+    for (let c = 1; c <= 4; c++) {
+      document.getElementById(`c${c}pts`).textContent = `${catScore(c)} / 25 分`;
+    }
+
+    // Card done state
+    for (let q = 1; q <= TOTAL; q++) {
+      const card = document.getElementById(`qc${q}`);
+      if (document.querySelector(`input[name="q${q}"]:checked`)) {
+        card.classList.add('done');
+        card.classList.remove('error');
+      } else {
+        card.classList.remove('done');
+      }
+    }
+  }
+
+  function showResults() {
+    const answered = answeredCount();
+    const alert    = document.getElementById('alertMsg');
+
+    if (answered < TOTAL) {
+      const unanswered = [];
+      for (let q = 1; q <= TOTAL; q++) {
+        if (!document.querySelector(`input[name="q${q}"]:checked`)) {
+          unanswered.push(q);
+          const card = document.getElementById(`qc${q}`);
+          card.classList.add('error');
+          setTimeout(() => card.classList.remove('error'), 1500);
+        }
+      }
+      alert.style.display = 'block';
+      alert.textContent   = `尚有 ${TOTAL - answered} 題未填（第 ${unanswered.join('、')} 題），請完成後再查看報告！`;
+      document.getElementById(`qc${unanswered[0]}`).scrollIntoView({ behavior:'smooth', block:'center' });
+      return;
+    }
+
+    alert.style.display = 'none';
+    const score = totalScore();
+    const info  = levelInfo(score, answered);
+
+    // Fill result section
+    document.getElementById('resScore').textContent = score;
+    const rp = document.getElementById('resLevelPill');
+    rp.textContent = info.pill;
+    rp.className   = `gauge-level-pill ${info.cls}`;
+    activeResultCard(score);
+
+    for (let c = 1; c <= 4; c++) {
+      const cs = catScore(c);
+      document.getElementById(`b${c}`).style.width  = `${(cs/25*100).toFixed(1)}%`;
+      document.getElementById(`bv${c}`).textContent = `${cs}/25`;
+    }
+
+    const res = document.getElementById('resultsSection');
+    res.style.display = 'block';
+    res.scrollIntoView({ behavior:'smooth' });
+  }
+
+  function resetAll() {
+    document.getElementById('form').reset();
+    document.getElementById('resultsSection').style.display = 'none';
+    document.getElementById('alertMsg').style.display = 'none';
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.querySelectorAll('input[type="radio"]').forEach(r => r.addEventListener('change', updateUI));
+  updateUI();
+</script>
+
+</body>
+</html>
